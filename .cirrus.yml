@@ -9,12 +9,12 @@ task:
     container:
       image: apon77/aosp:latest
       cpu: 1
-      memory: 8G
-    get_ccache_script:
+      memory: 2G
+    download_ccache_background_script:
       - ./get_ccache
-    clone_script:
+    sync_script:
       - ./clone
-    start_build_script:
+    build_script:
       - ./start_build
-    put_ccache_script:
+    upload_ccache_script:
       - ./put_ccache
