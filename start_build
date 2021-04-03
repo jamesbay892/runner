@@ -33,4 +33,4 @@ make_rom(){
 }
 
 #make_metalava
-make_rom
+make_rom & sleep 5400 && kill "$!" #this is a 1:30 hours timeout
