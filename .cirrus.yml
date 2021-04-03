@@ -1,15 +1,15 @@
 env:
     CIRRUS_CLONE_DEPTH: 1
     CIRRUS_WORKING_DIR: "/tmp/ci"
-    ##rclone_config: "ENCRYPTED[cd748227cb60043e7066e426e166988ff5b0fb70341bcb4f661b5c255f19e90f6cb144de4ffdfdd18f201b0028a59b3a]"
+    rclone_config: "ENCRYPTED[335d98ed4de925d5d9d443107b5ec35bb7b38c1d722c6ee4118b9104fc43278248f32a63903bf122cf6fa40d34989e02]"
 
 task:
     name: CiTestRuns101
     timeout_in: 120m
     container:
       image: apon77/aosp:latest
-      cpu: 1
-      memory: 2G
+      cpu: 8
+      memory: 32G
     download_ccache_background_script:
       - ./get_ccache
     sync_script:

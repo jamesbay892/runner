@@ -5,7 +5,7 @@ rm -rf .repo & # lets remove unnecessary things, so that no storage issue can oc
 
 # Normal build steps
 . build/envsetup.sh
-lunch lineage_whyred-userdebug
+lunch lineage_X00T-userdebug
 export SELINUX_IGNORE_NEVERALLOWS=true
 export CCACHE_DIR=/tmp/ccache
 export CCACHE_EXEC=$(which ccache)
@@ -13,16 +13,6 @@ export USE_CCACHE=1
 ccache -M 20G
 ccache -o compression=true
 ccache -z
-
-# Telgram env setup
-export BOT_MSG_URL="https://api.telegram.org/bot$API_BOT/sendMessage"
-export BOT_BUILD_URL="https://api.telegram.org/bot$API_BOT/sendDocument"
-
-tg_post_msg() {
-        curl -s -X POST "$BOT_MSG_URL" -d chat_id="$2" \
-        -d "parse_mode=html" \
-        -d text="$1"
-}
 
 # stuffs
 up(){
@@ -36,17 +26,11 @@ make_metalava(){
 }
 
 make_rom(){
-	tg_post_msg "<b>Crdroidandroid CI Build Triggered for whyred</b>" "$CHATID"
-	mka bacon -j16
-	if [ -f out/target/product/whyred/*zip ]; then
-		zip=$(up out/target/product/whyred/*zip)
+	mka bacon -j$(nproc --all)
+		zip=$(up out/target/product/X00T/*zip)
 		echo " "
 		echo "$zip"
-		tg_post_msg "<b>Build Completed</b>%0A%0A<b>Link : </b> <code>"$zip"</code>" "$CHATID"
-	else
-		tg_post_msg "<b>Build Failed, check cirrus console</b>" "$CHATID"
-	fi
 }
 
-make_metalava
+#make_metalava
 make_rom
