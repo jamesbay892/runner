@@ -1,0 +1,15 @@
+#!/bin/bash
+
+cd /tmp
+
+# Compress with pigz for faster compression
+com () 
+{ 
+    tar --use-compress-program="pigz -k -$2 " -cf losnew_$1.tar.gz $1
+}
+
+time com ccache 1 # Compression level 1 is enough
+
+mkdir -p ~/.config/rclone
+echo "$rclone_config" > ~/.config/rclone/rclone.conf
+time rclone copy losnew_ccache.tar.gz jamesbay892:ccache/los -P

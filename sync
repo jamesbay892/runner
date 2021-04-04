@@ -6,15 +6,16 @@ BRANCH=lineage-18.1
 mkdir -p /tmp/rom
 cd /tmp/rom
 
-# Repo init command, that -device,-mips,-darwin,-notdefault part will save you more time and storage to sync, add more according to your rom and choice. Optimization is welcomed! Let's make it quit, and with depth=1 so that no unnecessary things.
+# Initialize the ROM source
 repo init --no-repo-verify --depth=1 -u "$MANIFEST" -b "$BRANCH" -g default,-device,-mips,-darwin,-notdefault
+
+# Input git details
 git config --global user.name kevinblunt1609
 git config --global user.email kevinblunt1609@gmail.com
 
-# Sync source with -q, no need unnecessary messages, you can remove -q if want! try with -j30 first, if fails, it will try again with -j8
-repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j$(nproc --all) || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
+# Sync the ROM source
+repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j16 || repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j8
 
-# Sync stuffs
 # Clone trees
 git clone https://gitlab.com/asus-sdm660-4.19/device_asus_x00t-4.19.git --single-branch -b losZen device/asus/X00T/ --depth=1
 git clone https://gitlab.com/asus-sdm660-4.19/proprietary_vendor_asus-4.19.git --single-branch -b lineage-18.1-4.19 vendor/asus/ --depth=1

@@ -1,7 +1,7 @@
 env:
     CIRRUS_CLONE_DEPTH: 1
     CIRRUS_WORKING_DIR: "/tmp/ci"
-    rclone_config: "ENCRYPTED[587e4276890cf42e01385cb41a6511b3e6b702730dc10fa80c13c263c482100128e81e591e0b5deecca80ccba65fc938]"
+    rclone_config: "ENCRYPTED[335d98ed4de925d5d9d443107b5ec35bb7b38c1d722c6ee4118b9104fc43278248f32a63903bf122cf6fa40d34989e02]"
 
 task:
     name: CiTestRuns101
@@ -9,12 +9,12 @@ task:
     container:
       image: apon77/aosp:latest
       cpu: 8
-      memory: 28G
-    download_ccache_background_script:
-      - ./get_ccache
+      memory: 30G
+#    download_ccache_script:
+#      - ./download_ccache
     sync_script:
-      - ./clone
+      - ./sync
     build_script:
-      - ./start_build
-    upload_ccache_script:
-      - ./put_ccache
+      - ./build
+    upload_script:
+      - ./upload

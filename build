@@ -1,0 +1,32 @@
+#!/bin/bash
+
+cd /tmp/rom
+rm -rf .repo
+
+# Normal build steps
+. build/envsetup.sh
+lunch lineage_X00T-userdebug
+export LC_ALL=C
+export SELINUX_IGNORE_NEVERALLOWS=true
+export CCACHE_DIR=/tmp/ccache
+export CCACHE_EXEC=$(which ccache)
+export USE_CCACHE=1
+ccache -M 20G
+ccache -o compression=true
+ccache -z
+
+build_metalava(){
+	mka api-stubs-docs
+	mka system-api-stubs-docs
+	mka test-api-stubs-docs
+}
+
+build_rom(){
+	mka bacon -j8
+	#zip=$(up out/target/product/X00T/*zip)
+	#echo " "
+	#echo "$zip"
+}
+
+build_metalava
+build_rom & sleep 5400 && kill "$!" #this is a 1:30 hours timeout for make
